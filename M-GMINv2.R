@@ -58,13 +58,13 @@ type1.v <- rep(2,length(mvaluev1));
 type1.v[which(mvaluev1 < max(mvaluev1[type1class==1]))] <- 1;
 type1.v[which(mvaluev1 > min(mvaluev1[type1class==3]))] <- 3;
 type1class <- type1.v
-#type1thres <-c(mean(c(max(mvaluev1[type1class==1]),min(mvaluev1[type1class==2]))),mean(c(max(mvaluev1[type1class==2]),min(mvaluev1[type1class==3]))))
+
 type2class<-apply(em2$posterior, 1, which.max)
 type2.v <- rep(2,length(mvaluev2));
 type2.v[which(mvaluev2 < max(mvaluev2[type2class==1]))] <- 1;
 type2.v[which(mvaluev2 > min(mvaluev2[type2class==3]))] <- 3;
 type2class <- type2.v
-#type2thres <-c(mean(c(max(mvaluev2[type2class==1]),min(mvaluev2[type2class==2]))),mean(c(max(mvaluev2[type2class==2]),min(mvaluev2[type2class==3]))))
+
 
 
 type1mu <- em1$mu
