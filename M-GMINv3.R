@@ -40,8 +40,7 @@ mvaluev1<-log2(obeta1/(1-obeta1))
 mvaluev2<-log2(obeta2/(1-obeta2))
 em1<-normalmixEM(mvaluev1,mu=c(-4,-1,4),sigma=c(1,1,1),epsilon=1e-6)
 em2<-normalmixEM(mvaluev2,mu=c(-4,0,4),sigma=c(1,1,1),epsilon=1e-6)
-#plot(em1,whichplots=2)
-#plot(em2,whichplots=2)
+
 em1<-sort.mixEM(em1)
 em2<-sort.mixEM(em2)
 print(paste0("Mu of type1 M-values for 1st time:", paste(round(em1$mu,3),collapse=' ')))
@@ -63,13 +62,11 @@ type1.v <- rep(2,length(mvaluev1));
 type1.v[which(mvaluev1 < max(mvaluev1[type1class==1]))] <- 1;
 type1.v[which(mvaluev1 > min(mvaluev1[type1class==3]))] <- 3;
 type1class <- type1.v
-#type1thres <-c(mean(c(max(mvaluev1[type1class==1]),min(mvaluev1[type1class==2]))),mean(c(max(mvaluev1[type1class==2]),min(mvaluev1[type1class==3]))))
 type2class<-apply(em2$posterior, 1, which.max)
 type2.v <- rep(2,length(mvaluev2));
 type2.v[which(mvaluev2 < max(mvaluev2[type2class==1]))] <- 1;
 type2.v[which(mvaluev2 > min(mvaluev2[type2class==3]))] <- 3;
 type2class <- type2.v
-#type2thres <-c(mean(c(max(mvaluev2[type2class==1]),min(mvaluev2[type2class==2]))),mean(c(max(mvaluev2[type2class==2]),min(mvaluev2[type2class==3]))))
 
 
 type1mu <- em1$mu
@@ -107,11 +104,10 @@ nmvaluev2[selMR.idx] <- q.v
 type2H.idx <- c(selUR.idx, which(type2class==2), selML.idx)
 
 minH <- min(mvaluev2[type2H.idx])
-#maxH <- max(mvaluev2[type2H.idx])
-maxH <- min(mvaluev2[selMR.idx])
+maxH <- max(mvaluev2[type2H.idx])
+#maxH <- min(mvaluev2[selMR.idx])
 delH<- maxH-minH
 delUH <- min(mvaluev2[type2H.idx]) - max(mvaluev2[selUL.idx])
-#delHM <- min(mvaluev2[selMR.idx]) - max(mvaluev2[type2H.idx])
 delHM <- min(mvaluev2[selMR.idx]) - max(mvaluev2[type2H.idx])
 
 nmaxH<- min(nmvaluev2[selMR.idx]) - delHM
