@@ -2,7 +2,7 @@
 ###df: a data.frame consisting of 
 ###(1st column) beta values for a given sample and 
 ###(column name: type ) corresponding probe types (1=type1, 2=type2).
-###sampleID: TCGA sample ID.
+###sampleID: TCGA sample ID or user-defined ID.
 
 require(mixtools)
 
@@ -43,8 +43,8 @@ em2<-normalmixEM(mvaluev2,mu=c(-4,0,4),sigma=c(1,1,1),epsilon=1e-6)
 
 em1<-sort.mixEM(em1)
 em2<-sort.mixEM(em2)
-print(paste0("Mu of type1 M-values for 1st time:", paste(round(em1$mu,3),collapse=' ')))
-print(paste0("Mu of type2 M-values for 1st time:", paste(round(em2$mu,3),collapse=' ')))
+print(paste0("Mu of type1 for the 1st time:", paste(round(em1$mu,3),collapse=' ')))
+print(paste0("Mu of type2 for the 1st time:", paste(round(em2$mu,3),collapse=' ')))
 
 #added 0729, mvaluev1 fit four mixed normal distributions
 flag1<-(em1$mu[3]-em1$sigma[3])>(em2$mu[3]-em2$sigma[3])
@@ -68,7 +68,6 @@ type2.v[which(mvaluev2 < max(mvaluev2[type2class==1]))] <- 1;
 type2.v[which(mvaluev2 > min(mvaluev2[type2class==3]))] <- 3;
 type2class <- type2.v
 
-
 type1mu <- em1$mu
 type2mu <- em2$mu
 
@@ -90,11 +89,9 @@ selML.idx <- type2M.idx[which(mvaluev2[type2M.idx] < type2mu[3])]
 p.v <- pnorm(mvaluev2[selMR.idx], em2$mu[3], em2$sigma[3], lower.tail=FALSE)
 if(flag1){
 	q.v <- qnorm(p.v, em1$mu[3], em1$sigma[3], lower.tail=FALSE)
-
 }
 else{
 	q.v <- qnorm(p.v, em1$mu[4], em1$sigma[4], lower.tail=FALSE)
-
 }
 nmvaluev2[selMR.idx] <- q.v
 #p.v <- pnorm(mvaluev2[selML.idx], em2$mu[3], em2$sigma[3], lower.tail = TRUE)
